@@ -6,4 +6,4 @@ This LaTeX package will Do The Right Thing, as defined ad hoc by its author and 
 * Local formatting macros
 * Improved hyperlinks, references and TOC
 
-This Git repo is private, and is meant to be used by the author collaborators.
+This Git repo is private, and is meant to be used by the author and collaborators.
