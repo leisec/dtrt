@@ -100,7 +100,7 @@
 % NOTE: If you make corrections or improvements, please share them with the author.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\ProvidesPackage{dtrt}[2015/04/30 v0.95004]
+\ProvidesPackage{dtrt}[2016/02/16 v0.95006]
 \usepackage{amssymb}
 \usepackage{keyval}
 \usepackage{ifpdf}
@@ -118,6 +118,7 @@
 \newcommand{\dt@paper}{letterpaper}  % must be a name supported by the 'geometry' package
 \newcommand{\dt@head}{} % must be one of '', 'chaptersection' or 'sectionsubsection'
 \newcommand{\dt@firstpagestyle}{empty} % must be a valid page style such as 'empty' or 'plain'
+\newcommand{\dt@draftfootnote}{DRAFT --- compiled at \dt@datetime \@ifundefined{OSUserName}{}{ by \texttt{\OSUserName}}; not for distribution}
 \@ifundefined{dt@linkcolor}{
   \definecolor{dt@linkcolor}{rgb}{0.8 0.8 1}
 }{}
@@ -169,6 +170,7 @@
 \define@key{dt@KV}{llncssubsub}[true]{\csname dt@llncssubsub#1\endcsname}
 \define@key{dt@KV}{captionrule}[true]{\csname dt@captionrule#1\endcsname}
 \define@key{dt@KV}{head}{\renewcommand{\dt@head}{#1}}
+\define@key{dt@KV}{draftfootnote}{\renewcommand{\dt@draftfootnote}{#1}}
 \define@key{dt@KV}{camera}[true]{\csname dt@camera#1\endcsname 
                                  \ifdt@camera
                                     \dt@notesfalse
@@ -643,7 +645,7 @@
   \newcommand{\dt@datetime}{\the\year-\ifthenelse{\the\month < 10}{0}{}\the\month-\ifthenelse{\the\day < 10}{0}{}\the\day{} \thistime}
   \renewcommand{\PrelimText}{%
     \dt@colorize\normalfont\sffamily \ifthenelse{\equal{\thepage}{1}}{\bfseries}{\tiny}%
-    [DRAFT --- compiled at \dt@datetime \@ifundefined{OSUserName}{}{ by \texttt{\OSUserName}}; not for distribution]%
+    [\dt@draftfootnote]%
   }
 \fi%dt@draft
 
