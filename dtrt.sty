@@ -100,7 +100,7 @@
 % NOTE: If you make corrections or improvements, please share them with the author.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\ProvidesPackage{dtrt}[2016/02/16 v0.95006]
+\ProvidesPackage{dtrt}[2016/05/05 v0.95007]
 \usepackage{amssymb}
 \usepackage{keyval}
 \usepackage{ifpdf}
@@ -145,7 +145,8 @@
 
 % Some classes don't work well with marginpar
 \@ifclassloaded{sig-alternate}{\dt@marginparsfalse}{}
-\@ifclassloaded{(acm_proc_article-sp}{\dt@marginparsfalse}{}
+\@ifclassloaded{sig-alternate-05-2015}{\dt@marginparsfalse}{}
+\@ifclassloaded{acm_proc_article-sp}{\dt@marginparsfalse}{}
 
 \define@key{dt@KV}{smartcomma}[true]{\csname dt@smartcomma#1\endcsname}
 \define@key{dt@KV}{notes}[true]{\csname dt@notes#1\endcsname}
