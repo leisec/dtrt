@@ -100,7 +100,7 @@
 % NOTE: If you make corrections or improvements, please share them with the author.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\ProvidesPackage{dtrt}[2016/05/05 v0.95007]
+\ProvidesPackage{dtrt}[2017/10/04 v0.95008]
 \usepackage{amssymb}
 \usepackage{keyval}
 \usepackage{ifpdf}
@@ -137,6 +137,7 @@
 \newif\ifdt@llncsqed \dt@llncsqedfalse
 \newif\ifdt@llncssubsub \dt@llncssubsubfalse
 \newif\ifdt@llncs \@ifclassloaded{llncs}{\dt@llncstrue}{\dt@llncsfalse}
+\newif\ifdt@acmart \@ifclassloaded{acmart}{\dt@acmarttrue}{\dt@acmartfalse}
 \newif\ifdt@marginpars \dt@marginparstrue
 \newif\ifdt@captionrule \dt@captionrulefalse
 \newif\ifdt@xxxanyway \dt@xxxanywayfalse   % show \XXX even if notes=false
@@ -322,27 +323,30 @@
     }{}
 
     % Hook into \@ssect to add the TOC entry (\@ssect implements \section*, \subsection*, \subsubsection*)
-    \let\dt@old@ssect=\@ssect
-    \renewcommand{\@ssect}[5]{% {indent}{beforeskip}{afterskip}{style}{text}
-      \ifthenelse{ \( \equal{\dt@lastsecttype}{section} \and \equal{#5}{Abstract} \) \or \boolean{dt@inIEEEappendix} \or \boolean{dt@inIEEEthebibliography} }{%
-         \dt@old@ssect{#1}{#2}{#3}{#4}{#5}% The \section*{Abstract}, and some IEEEtrans \section*s, are are handled elsewhere so don't try to add duplicate TOC entries
-      }{%
-        \dt@old@ssect{#1}{#2}{#3}{#4}{%
-          \phantomsection%
-          \ifthenelse{\boolean{dt@inTOC}}{%
-            \dtbookmark{\dt@lastsectlevel}{#5}% just a bookmark
-          }{%
-            \addcontentsline{toc}{\dt@lastsecttype}{#5}% contents line + bookmark
-          }%
-        #5}%
-      }%
-      % no need for "\dtbookmark{\dt@lastsectlevel}{#5}", the above already does it.
-      % TODO: respect TOC depth limit, like hyperref.
-      % TODO: give a way to disable TOC for some starred sections
-      % TODO: hyperref will increase depth by at most 1, so \section->{\subsubsection*,\subsubsection\*}
-      %       will get depths 1,2,3 (see twirl.pdf).
-      % TODO: fix: the anchor is right after the title, instead of its beginning
-    }
+    \ifdt@acmart % skip if acmart.cls loaded, it already takes care of TOC lines and bookmarks for its favorite \section*s
+    \else
+        \let\dt@old@ssect=\@ssect
+        \renewcommand{\@ssect}[5]{% {indent}{beforeskip}{afterskip}{style}{text}
+        \ifthenelse{ \( \equal{\dt@lastsecttype}{section} \and \equal{#5}{Abstract} \) \or \boolean{dt@inIEEEappendix} \or \boolean{dt@inIEEEthebibliography} }{%
+            \dt@old@ssect{#1}{#2}{#3}{#4}{#5}% The \section*{Abstract}, and some IEEEtrans \section*s, are are handled elsewhere so don't try to add duplicate TOC entries
+        }{%
+            \dt@old@ssect{#1}{#2}{#3}{#4}{%
+            \phantomsection%
+            \ifthenelse{\boolean{dt@inTOC}}{%
+                \dtbookmark{\dt@lastsectlevel}{#5}% just a bookmark
+            }{%
+                \addcontentsline{toc}{\dt@lastsecttype}{#5}% contents line + bookmark
+            }%
+            #5}%
+        }%
+        % no need for "\dtbookmark{\dt@lastsectlevel}{#5}", the above already does it.
+        % TODO: respect TOC depth limit, like hyperref.
+        % TODO: give a way to disable TOC for some starred sections
+        % TODO: hyperref will increase depth by at most 1, so \section->{\subsubsection*,\subsubsection\*}
+        %       will get depths 1,2,3 (see twirl.pdf).
+        % TODO: fix: the anchor is right after the title, instead of its beginning
+        }
+    \fi%dt@acmart
 
     % Handle \chapter* (in book.cls) too:
     % Hook into \@makeschapterhead to add the TOC entry:
