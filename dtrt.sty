@@ -332,7 +332,7 @@
         }{%
             \dt@old@ssect{#1}{#2}{#3}{#4}{%
             \phantomsection%
-            \ifthenelse{\boolean{dt@inTOC}}{%
+            \ifthenelse{\boolean{dt@inTOC} \or \equal{\dt@lastsecttype}{DTRT-UNINIT-SECT-TYPE}}{%
                 \dtbookmark{\dt@lastsectlevel}{#5}% just a bookmark
             }{%
                 \addcontentsline{toc}{\dt@lastsecttype}{#5}% contents line + bookmark
@@ -350,17 +350,19 @@
 
     % Handle \chapter* (in book.cls) too:
     % Hook into \@makeschapterhead to add the TOC entry:
-    \@ifundefined{@makeschapterhead}{}{
-      \xpretocmd{\@makeschapterhead}{%
-        \phantomsection%
-        \ifthenelse{\boolean{dt@inTOC}}{%
-          \dtbookmark{1}{\contentsname}% just a bookmark
-        }{%
-          \addcontentsline{toc}{chapter}{#1}% contents line + bookmark
-        }%
-        %\chaptermark{#1}%
-      }{}{}
-    }
+    \@ifclassloaded{book}{
+      \@ifundefined{@makeschapterhead}{}{
+        \xpretocmd{\@makeschapterhead}{%
+          \phantomsection%
+          \ifthenelse{\boolean{dt@inTOC}}{%
+            \dtbookmark{1}{\contentsname}% just a bookmark
+          }{%
+            \addcontentsline{toc}{chapter}{#1}% contents line + bookmark
+          }%
+          %\chaptermark{#1}%
+        }{}{}
+      }
+    }{}
   \fi%true
 
   % Ignore footnotes inside TOC entries
