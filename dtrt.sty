@@ -100,7 +100,7 @@
 % NOTE: If you make corrections or improvements, please share them with the author.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\ProvidesPackage{dtrt}[2018/07/31 v0.95009]
+\ProvidesPackage{dtrt}[2018/07/31 v0.95010]
 \usepackage{amssymb}
 \usepackage{keyval}
 \usepackage{ifpdf}
@@ -245,8 +245,8 @@
     %  \definecolor{LinkBlue}{rgb}{0,0,0.8}
     %  \usepackage[pdfpagemode=UseOutlines,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,pdfstartview=FitH,colorlinks,linkcolor=LinkBlue,citecolor=LinkBlue,urlcolor=LinkBlue,pagecolor=LinkBlue]{hyperref}
     % Color the border (doesn't show in printout):
-    \usepackage{hyperref}
-    \hypersetup{hyperindex=true,pdfpagemode=UseOutlines,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,pdfstartview=FitH,pdfborder={0 0 1},linkbordercolor=dt@linkcolor,citebordercolor=dt@linkcolor,urlbordercolor=dt@linkcolor}
+    \usepackage[hyperindex=true]{hyperref}
+    \hypersetup{pdfpagemode=UseOutlines,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,pdfstartview=FitH,pdfborder={0 0 1},linkbordercolor=dt@linkcolor,citebordercolor=dt@linkcolor,urlbordercolor=dt@linkcolor}
 
     % Make PDF bookmarks for title+abstract:
     \let\dt@oldtitle=\title
