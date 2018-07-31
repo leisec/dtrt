@@ -100,7 +100,7 @@
 % NOTE: If you make corrections or improvements, please share them with the author.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\ProvidesPackage{dtrt}[2017/10/04 v0.95008]
+\ProvidesPackage{dtrt}[2018/07/31 v0.95009]
 \usepackage{amssymb}
 \usepackage{keyval}
 \usepackage{ifpdf}
@@ -553,6 +553,9 @@
       {\marginnote}% \marginnote will then consume the [left-text]{right-text} arguments that follow \sidenote
       {\marginpar}%  \marginpar  will then consume the [left-text]{right-text} arguments that follow \sidenote
   }
+  % Silence superfluous ``Marginpar on page ... moved'' warnings
+  \usepackage{silence}
+  \WarningFilter*{latex}{Marginpar on page \thepage\space moved}
 \else%dt@sidenotes
   \newcommand{\sidenote}[2][]{}
 \fi%dt@sidenotes
