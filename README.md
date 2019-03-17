@@ -9,4 +9,4 @@ This LaTeX package will Do The Right Thing, as defined ad hoc by its author and 
 
 For more details, see the comments at the top of [dtrt.sty](dtrt.sty).
 
-Tracked [on GitHub](https://github.com/leisec/dtrt).
+Tracked [on GitHub](https://github.com/leisec/dtrt). Corrections and improvements are welcome.

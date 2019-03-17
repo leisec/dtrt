@@ -1,13 +1,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% NOTE: Preparing a camrea-ready version? Passing the [camera] option to this package
-% will turn off the effects you're worried about (see below).
+% PREPARING A CAMERA-READY VERSION? Passing the [camera] option to this package
+% will turn off author notes and other effects that you may be worried about.
 %
-% This package will Do The Right Thing:
+%
+% This LaTeX package will Do The Right Thing, as defined ad hoc by its author and
+% implemented in arbitrarily kludgy ways. See https://github.com/leisec/dtrt for an
+% overview and the latest version.
 %
 % Author and margin notes:
-% + Define a \dtnote[author]{text} command for nicely formatted author notes
-%   with margin marks (author name is optional), and similarly 
+% + Define a \dtnote[author]{text} command for nicely formatted author notes with
+%   margin marks (author name is optional), and similarly
 %   \dtcolornote[author]{color}{text}.
 % + Define a \later macro that, when preceding a \dtnote, marks it as a "note for later".
 %   These can be turned off by option "[later=false]".
@@ -26,7 +29,7 @@
 % + Enables page numbering on all pages except first.
 % - Add a head at the top of every page with either the current chapter and section
 %   or current the section and subsection ("[head=...]" option).
-% - Set page geometry as fraction of page width and height, in a 
+% - Set page geometry as fraction of page width and height, in a
 %   package-independent way ("[width=...]" and "[height=...]" options).
 %
 % Local formatting:
@@ -71,7 +74,7 @@
 %   draft             -- Write "DRAFT" and time of compilation at page bottoms.
 %   notes=false       -- Disable display of \dtnote{...} author notes, \XXX and \ignore marks.
 %   notes=xxx         -- Disable display of \dtnote{...} author notes and \ignore marks. Keep \XXX.
-%   later=false       -- Disable display of \later\dtnote{...} notes (but still leave a 
+%   later=false       -- Disable display of \later\dtnote{...} notes (but still leave a
 %                        mark in the margin, unless also notes=false).
 %   done=false        -- Disable display of \done\dtnote{...} notes (but still leave a mark, ditto)
 %   showignore=false  -- Don't show \ignore marks even if notes=true
@@ -95,9 +98,9 @@
 %   captionrule       -- Add a horizontal line ("rule") above figure's caption
 %
 % Written by Eran Tromer <eran@tromer.org> except where noted otherwise.
-% Distributed under the LaTeX Project Public License v1.3a or later; see 
+% Distributed under the LaTeX Project Public License v1.3a or later; see
 % http://www.latex-project.org/lppl.txt for details and (lack of) warranty.
-% NOTE: If you make corrections or improvements, please share them with the author.
+% If you make corrections or improvements, please share them with the author.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \ProvidesPackage{dtrt}[2018/07/31 v0.95010]
@@ -159,7 +162,7 @@
 \define@key{dt@KV}{sidenotes}[true]{\csname dt@sidenotes#1\endcsname}
 \define@key{dt@KV}{width}{\def\dt@width{#1}\dt@geometrytrue}
 \define@key{dt@KV}{height}{\def\dt@height{#1}\dt@geometrytrue}
-% \define@key{dt@KV}{linkcolor}{\def\dt@linkcolor{#1}} 
+% \define@key{dt@KV}{linkcolor}{\def\dt@linkcolor{#1}}
 %   Broken -- can't pass {r g b} via keyval.
 %   Use \newcommand{\dt@linkcolor}{{0.6 0.6 1.0}} before \usepackage{dtrt} instead.
 \define@key{dt@KV}{bindshift}{\def\dt@bindshift{#1}}
@@ -173,7 +176,7 @@
 \define@key{dt@KV}{captionrule}[true]{\csname dt@captionrule#1\endcsname}
 \define@key{dt@KV}{head}{\renewcommand{\dt@head}{#1}}
 \define@key{dt@KV}{draftfootnote}{\renewcommand{\dt@draftfootnote}{#1}}
-\define@key{dt@KV}{camera}[true]{\csname dt@camera#1\endcsname 
+\define@key{dt@KV}{camera}[true]{\csname dt@camera#1\endcsname
                                  \ifdt@camera
                                     \dt@notesfalse
                                     \dt@draftfalse
@@ -302,7 +305,7 @@
       \def\dt@lastsectlevel{#2}%
       \dt@old@startsection{#1}{#2}{#3}{#4}{#5}{#6}%
     }
-    
+
     % Hook into \tableofcontents so we'll know to ignore its own \chapter* command
     \newif\ifdt@inTOC \dt@inTOCfalse % inside a table of contents?
     \@ifundefined{tableofcontents}{}{
@@ -413,7 +416,7 @@
   \@ifundefined{Gm@compatiitrue}{\def\dt@geomoptcompat{}}{\def\dt@geomoptcompat{compat2,}}
   \@ifundefined{dt@bindshift}{\def\dt@geomoptbindshift{}}{\def\dt@geomoptbindshift{twosideshift=\dt@bindshift,}}
   \edef\dt@makegeometry{\noexpand\geometry{
-    \dt@geomoptcompat 
+    \dt@geomoptcompat
     \dt@paper,
     % verbose,
     twoside=\ifdt@blankpages true\else false\fi,
@@ -482,9 +485,9 @@
   \usepackage{morefloats} % our side notes are floats that eat up some of TeX's capacity
 
   % The following handles various environments that don't support marginpar.
-  % We keep a flag for each of them, and whenever any of the flags 
+  % We keep a flag for each of them, and whenever any of the flags
   % is set, \sidenote uses \marginnote instead of \marginpar.
-  
+
   % Are we in a footnote?
   \newbool{dt@infootnote}\boolfalse{dt@infootnote}
   \let\dt@old@footnote=\footnote
@@ -535,7 +538,7 @@
   \def\@makecol{\let\dt@topfloat\@toplist\let\dt@botfloat\@botlist\dt@old@makecol}
   \def\ifdt@intopfloat#1#2{\ifx\dt@topfloat\empty #2\else #1\fi}
   \def\ifdt@inbotfloat#1#2{\ifx\dt@botfloat\empty #2\else #1\fi}
-  
+
   % Are we in a 'framed' environment of the 'framed' package?
   \newbool{dt@inframed}\boolfalse{dt@inframed}
   \AtBeginDocument{%
@@ -600,7 +603,7 @@
     \ifbool{dt@inlinenote}{ \mbox{} }{}%
     \sidenote{\dt@colorize[#2]\centering\normalfont\footnotesize%
       \ifthenelse{\boolean{dt@nextnoteislater}}{$\diamondsuit$}{%  diamondsuit in margin for later
-      \ifthenelse{\boolean{dt@nextnoteisdone}} {\ding{51}}{%       vee checkmark for done 
+      \ifthenelse{\boolean{dt@nextnoteisdone}} {\ding{51}}{%       vee checkmark for done
                                                $\bigstar$}}}%      star for regular notes
     \ifbool{dt@inlinenote}{%
       \ifmmode\expandafter\mbox\fi{%
@@ -944,14 +947,14 @@
 % \dt@CustomFBox tweaks the \CustomFBox of 'framed' by adding
 % parameter: length of the top/bottom rules, and space between
 % left rule and text.
-% Parameter #1 is inserted (in vmode) right after the top rule 
+% Parameter #1 is inserted (in vmode) right after the top rule
 % (useful for a title or assignments), and #2 is similar, but
 % inserted right above the bottom rule.
 % The thicknesses of the top, bottom, left, and right rules are
 % given as parameters #3,#4,#5,#6 respectively.  They should be
 % \fboxrule or \z@ (or some other thickness).
 % Argument #7 is the length of the bottom and right rules.
-% is the width 
+% is the width
 % The text argument is #8.
 % An instance of this can be used for the frame of \fcolorbox by
 % locally defining \fbox before \fcolorbox; e.g.,
@@ -996,7 +999,7 @@
 \def\dt@OpenFBox#1#2{\fboxsep=\FrameSep
    \dt@CustomFBox{}{}{#1}{#2}\FrameRule\z@\dt@nestedbar@hrule@length\dt@nestedbar@ident@from@vrule}
 
-\newenvironment{nestedbar}[1][\hsize]{ 
+\newenvironment{nestedbar}[1][\hsize]{
 %   \def\FrameCommand{%
 %     {\color{black}\vrule width 0.4pt}%
 %     \hspace{1.4em}\fboxsep=\FrameSep%
