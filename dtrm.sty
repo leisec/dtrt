@@ -1,0 +1,75 @@
+\ProvidesPackage{dtrm}[2020/06/10 v0.00001]
+% Useful math things for cryptography papers.
+%
+% For a more comprehensive package (with a different style), see also:
+% http://tug.ctan.org/tex-archive/macros/latex/contrib/cryptocode/
+\usepackage{xcolor}
+
+% Sets
+\newcommand{\set}[1]{\{#1\}}
+\newcommand{\setAdj}[1]{\left\{#1\right\}} % autoadjusts bracket size
+
+% Bits
+\newcommand{\bit}{\set{0,1}}
+\newcommand{\bits}[1]{\bit^{[1]}}
+
+% Concatenation
+\newcommand{\conc}{\mathbin{\|}}
+
+% Inner propduct
+\newcommand{\innerp}[2]{\langle #1, #2 \rangle}
+
+% Special equality
+\newcommand{\equalDef}{:=}
+\newcommand{\equalQuestion}{\stackrel{?}{=}}
+
+% Setting variables
+\newcommand{\get}{\leftarrow}
+\newcommand{\sample}{\xleftarrow{\text{\$}}}
+
+% Favorite groups/fields
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+
+% Probabilities
+\newcommand{\prob}[1]{\mathrm{Pr}[#1]}
+\newcommand{\probAdj}[1]{\Pr\left[#1\right]} % autoadjusts bracket size
+\newcommand{\pST}{\; \middle\vert \;} % "such that"
+
+% Mathmode tokens (opaque strings)
+\newcommand{\mtoken}[1]{\ensuremath{\mathsf{#1}}}
+
+% Function classes
+\newcommand{\poly}{\mathsf{poly}}
+\newcommand{\negl}{\mathsf{negl}}
+
+% Construction float
+% Usage:
+% \begin{construction}
+%   \caption{\label{...} ...}
+%   \begin{constructionbox}
+%     ...
+%   \end{constructionbox}
+% \end{construction}
+\newfloat{construction}{t}{lop}
+\floatname{construction}{Construction}
+\newenvironment{constructionbox}{
+  \begin{center}
+  \begin{minipage}{1.00\textwidth}
+  \begin{mdframed}
+}{
+  \end{mdframed}
+  \end{minipage}
+  \end{center}
+}
+
+% Intuition text inside equations and constructions
+\newcommand{\intuitionsym}{\ensuremath{\blacktriangleright}}
+\definecolor{intuitioncolor}{rgb}{0,0.0,0.5}
+\newcommand{\intuitionstyle}[1]{{\color{intuitioncolor}{#1}}}
+\newcommand{\intuit}[1]{\mbox{\quad\intuitionstyle{\intuitionsym~{#1}}}}  % end of line
+\newcommand{\intuition}[1]{\par\intuitionstyle{\intuitionsym~{#1}}}   % on new line (in text mode)
+\newcommand{\tintuit}[1]{\mbox{\quad{\intuitionsym~{#1}}}}  % end of line, no styling
+
+\endinput
