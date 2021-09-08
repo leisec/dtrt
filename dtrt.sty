@@ -23,6 +23,9 @@
 % + Defines a \sidenote{text} command which creates a margin note that work
 %   reasonably even inside footnotes, tabulars, titles and (sometimes) math,
 %   and can be disabled using "sidenotes=false".
+% + Notes have the string "\NOTE" invisibly placed nearby, to make them easy to search
+%   when rendered to PDF. \XXX notes also have "\XXX" invisibly placed. Broken references
+%   also have "\ERROR".
 %
 % Page formatting:
 % - Designate drafts as such, including time of compilation ("[draft]" option).
@@ -258,12 +261,15 @@
       \dt@oldtitle{#1}%
     }
 
-    % Marks broken citations
+    % Marks broken citations and make them searchable in PDF by "\NOTE" or "\ERROR"
     \newcommand{\dt@brokenrefmark}[1]{%
       % \smash{\rlap{\dt@colorize\LARGE$\bigcirc$}}%    % hard to place this right, since \G@refundefinedtrue is invoked after the "?"
-      \marginnote[\dt@colorize\normalfont\smash{\large$\not\curvearrowleft $}\newline\baselineskip=0.5\baselineskip{\tiny{#1}}]
-                 {\dt@colorize\normalfont\smash{\large$\not\curvearrowright$}\newline\baselineskip=0.5\baselineskip{\tiny{#1}}}%
-        % force a \marginnote, even though \sidenote renders nicer, because many broken citations with \sidenote can cause `"Too many unprocessed floats" errors.
+      % force a \marginnote, even though \sidenote renders nicer, because many broken citations with \sidenote can cause `"Too many unprocessed floats" errors.
+      \marginnote%
+        [\dt@colorize\normalfont\smash{\large$\not\curvearrowleft $}\dt@invisibletiny{\textbackslash{}NOTE\textbackslash{}ERROR}%
+         \newline\baselineskip=0.5\baselineskip{\tiny{#1}}]%
+        {\dt@colorize\normalfont\smash{\dt@invisibletiny{\textbackslash{}NOTE\textbackslash{}ERROR}\large$\not\curvearrowright$}%
+         \newline\baselineskip=0.5\baselineskip{\tiny{#1}}}%
     }
 
     \newbool{dt@markundef} \booltrue{dt@markundef}
@@ -594,6 +600,10 @@
   { \dt@colorize[#1]\smaller\sffamily\bfseries\boldmath[#2] }%
 }
 
+\newcommand{\dt@invisibletiny}[1]{%  % \dt@invisibletiny[foo] puts foo in the PDF in invisible, tiny that can still searched in PDF
+    \ifpdf{\tiny\makebox[1pt][c]{\pdfliteral page{q 3 Tr}#1\pdfliteral page{Q}}}\fi%
+}
+
 \ifdt@notes
   \newbool{dt@nextnoteislater} % Is the next \dtcolornote preceded by a \later?
   \boolfalse{dt@nextnoteislater}
@@ -605,13 +615,17 @@
 
   \newbool{dt@inlinenote}
   \newcommand{\dtcolornote}[3][]{% \dtcolornote[authorname]{color}{text} -- add an inline note with mark at margin
-%   \noindent%
+    % Is the current note supposed to put anything inline (inside the text)?
     \ifthenelse{ \( \boolean{dt@later} \OR \NOT \boolean{dt@nextnoteislater} \) \AND \( \boolean{dt@done} \OR \NOT \boolean{dt@nextnoteisdone} \) }{\booltrue{dt@inlinenote}}{\boolfalse{dt@inlinenote}}%
     \ifbool{dt@inlinenote}{ \mbox{} }{}%
+    % Put a mark in the margins:
     \sidenote{\dt@colorize[#2]\centering\normalfont\footnotesize%
       \ifthenelse{\boolean{dt@nextnoteislater}}{$\diamondsuit$}{%  diamondsuit in margin for later
-      \ifthenelse{\boolean{dt@nextnoteisdone}} {\ding{51}}{%       vee checkmark for done
-                                               $\bigstar$}}}%      star for regular notes
+      \ifthenelse{\boolean{dt@nextnoteisdone}}{\ding{51}}{%       vee checkmark for done
+                                              $\bigstar$}}%       star for regular notes
+      \dt@invisibletiny{\textbackslash{}NOTE}              %  add invisible "\NOTE" text that can be searched in PDF
+    }
+    % Emit the inline part:
     \ifbool{dt@inlinenote}{%
       \ifmmode\expandafter\mbox\fi{%
         \ifthenelse{\equal{#1}{}}{%
@@ -640,8 +654,9 @@
 
 \ifthenelse{\boolean{dt@notes} \OR \boolean{dt@xxxanyway}}{
   \newcommand{\XXX}[1][XXX]{% \XXX or \XXX[text] -- a note that cannot be ignored by setting notes=false
-    \sidenote[\mbox{\dt@colorize\centering\normalfont\Large$\rhd$\hskip-0.6em$\blacktriangleright$}]% triangle in margin
-             {\mbox{\dt@colorize\centering\normalfont\Large$\lhd$\hskip-0.6em$\blacktriangleleft $}}%
+    % Triangle in margin, and invisible "\NOTE\XXX" text that can be searched in PDF
+    \sidenote[\mbox{\dt@colorize\centering\normalfont\Large$\rhd$\hskip-0.6em$\blacktriangleright$}\dt@invisibletiny{\textbackslash{}NOTE\textbackslash{}XXX}]%
+             {\mbox{\dt@colorize\centering\normalfont\Large$\lhd$\hskip-0.6em$\blacktriangleleft $}\dt@invisibletiny{\textbackslash{}NOTE\textbackslash{}XXX}}%
     \ifmmode%
       \;\mbox{\dt@rendernote{dt@notecolor}{#1}}\;%
     \else
