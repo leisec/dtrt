@@ -546,13 +546,20 @@
     \xapptocmd{\endMakeFramed}{\boolfalse{dt@inframed}}{}{}%
   }
 
+  % Are we in an 'algorithm' environment of the 'algorithm' package?
+  \newbool{dt@inalgorithm}\boolfalse{dt@inalgorithm}
+  \AtBeginDocument{%
+    \BeforeBeginEnvironment{algorithm}{\booltrue{dt@inalgorithm}}
+    \AfterEndEnvironment{algorithm}{\boolfalse{dt@inalgorithm}}
+  }
+
   \newcommand{\sidenote}{%
     % Convert top/bottom float detection to regular "if" so it will work reliably in the following.
     \newif\ifdt@xinbotfloat \ifdt@inbotfloat\dt@xinbotfloatfalse\dt@xinbotfloattrue%
     \newif\ifdt@xintopfloat \ifdt@intopfloat\dt@xintopfloatfalse\dt@xintopfloattrue%
     %
     % Create either a \marginpar if it will work, otherwise a \marginnote
-    \ifthenelse{\boolean{mmode} \OR \boolean{inner} \OR \boolean{dt@infootnote} \OR \boolean{dt@intabular} \OR \boolean{dt@in@float} \OR \boolean{dt@in@dblfloat} \OR \boolean{dt@infigure} \OR \boolean{dt@intable} \OR \boolean{dt@inmaketitle} \OR \boolean{dt@inminipage} \OR \boolean{dt@xintopfloat} \OR \boolean{dt@xinbotfloat} \OR \boolean{dt@inframed} \OR \not{\boolean{dt@marginpars}}}%
+    \ifthenelse{\boolean{mmode} \OR \boolean{inner} \OR \boolean{dt@infootnote} \OR \boolean{dt@intabular} \OR \boolean{dt@in@float} \OR \boolean{dt@in@dblfloat} \OR \boolean{dt@infigure} \OR \boolean{dt@intable} \OR \boolean{dt@inmaketitle} \OR \boolean{dt@inminipage} \OR \boolean{dt@xintopfloat} \OR \boolean{dt@xinbotfloat} \OR \boolean{dt@inframed} \OR \not{\boolean{dt@marginpars}} \OR \boolean{dt@inalgorithm}}%
       {\marginnote}% \marginnote will then consume the [left-text]{right-text} arguments that follow \sidenote
       {\marginpar}%  \marginpar  will then consume the [left-text]{right-text} arguments that follow \sidenote
   }
