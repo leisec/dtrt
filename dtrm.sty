@@ -37,7 +37,7 @@
 \newcommand{\probAdj}[1]{\Pr\left[#1\right]} % autoadjusts bracket size
 \newcommand{\pST}{\; \middle\vert \;} % "such that"
 
-% Mathmode tokens (opaque strings)
+% Mathmode token strings (i.e., atomic identifiers, which should be rendered differently than a sequence of single-letter variables)
 \newcommand{\mtoken}[1]{\ensuremath{\mathsf{#1}}}
 
 % Function classes
@@ -71,5 +71,27 @@
 \newcommand{\intuit}[1]{\mbox{\quad\intuitionstyle{\intuitionsym~{#1}}}}  % end of line
 \newcommand{\intuition}[1]{\par\intuitionstyle{\intuitionsym~{#1}}}   % on new line (in text mode)
 \newcommand{\tintuit}[1]{\mbox{\quad{\intuitionsym~{#1}}}}  % end of line, no styling
+
+% Units
+\newcommand{\preunit}{\unskip\,}
+\newcommand{\textunit}[1]{\preunit\text{#1}}
+
+\newcommand{\kB}{\textunit{kB}\xspace} 
+\newcommand{\GB}{\textunit{GB}\xspace} 
+
+\renewcommand{\sec}{\textunit{sec}\xspace}
+\newcommand{\msec}{\textunit{msec}\xspace}
+
+\newcommand{\cm}{\preunit{cm}\xspace}
+\newcommand{\meter}{\preunit{m}\xspace}
+
+\newcommand{\Hz}{\textunit{Hz}\xspace}
+\newcommand{\kHz}{\textunit{kHz}\xspace}
+\newcommand{\GHz}{\textunit{GHz}\xspace}
+\newcommand{\MHz}{\textunit{MHz}\xspace}
+
+\newcommand{\dB}{\textunit{dB}\xspace}
+\newcommand{\kbps}{\textunit{kbit}/\text{sec}\xspace} 
+\newcommand{\Mbps}{\textunit{Mbit}/\text{sec}\xspace} 
 
 \endinput
