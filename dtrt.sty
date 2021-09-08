@@ -635,8 +635,10 @@
         }%
       }%
     }{}%
+    % Turn off flags that were supposed to affect only one note
     \boolfalse{dt@nextnoteislater}%
     \boolfalse{dt@nextnoteisdone}%
+    % Absorb subsequent spaces, to avoid a double space if the inline part is turned off
     \ifbool{dt@inlinenote}{}{\ignorespaces}%
   }
 
@@ -645,7 +647,7 @@
   }
 \else
   % Define empty versions of note commands.
-  % We use \ignorespaces to avoid extended spaces in "before \dtcolornote{red}{note} after" rendered as "before  after"
+  % We use \ignorespaces to avoid a double space in "before \dtcolornote{red}{note} after" rendered as "before  after"
   \newcommand{\dtcolornote}[3][]{\ignorespaces}
   \newcommand{\dtnote}[2][]{\ignorespaces}
   \newcommand{\later}{\ignorespaces}
@@ -870,7 +872,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Teach llncs about dates.
-% The following code is copied from llncs, except the the strongly indented lines.
+% The following code is copied from llncs, except the strongly indented lines.
 \ifdt@llncsdate
   \ifdt@llncs
 
