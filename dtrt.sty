@@ -743,7 +743,10 @@
     {\endgroup}%
 }
 
-\newcommand{\parhead}[1]{\smallskip \noindent {\bfseries\boldmath\ignorespaces \dt@MaybeAddPunct{#1}}\hskip 0.9em plus 0.3em minus 0.3em \dt@ignorespacesandimplicitepars}
+% \parheadnoperiod{text} generates a parhead without any extra punctuation. Useful, e.g., if you put a footnote at the end of your parhead text.
+\newcommand{\parheadnoperiod}[1]{\smallskip \noindent {\bfseries\boldmath\ignorespaces {#1}}\hskip 0.9em plus 0.3em minus 0.3em \dt@ignorespacesandimplicitepars}
+% \parhead{text} automatically appends a period if the text doesn't already end with punctuation. You should usually use this one.
+\newcommand{\parhead}[1]{\parheadnoperiod{\dt@MaybeAddPunct{#1}}\dt@ignorespacesandimplicitepars}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Define \footnotesymb{symbol}{text} -- footnote with explicitly given symbol
